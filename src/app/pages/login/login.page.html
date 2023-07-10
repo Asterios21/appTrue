@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>INICIO DE SESION</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="loginForm">
+    <div class="login-box">
+      <ion-item class="login-box__input">
+        <ion-input label="Email" labelPlacement="floating"  placeholder="Enter your Email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item class="login-box__input">
+        <ion-input label="Password" labelPlacement="floating" type="Password"  placeholder="Enter your Password" formControlName="password"></ion-input>
+      </ion-item>
+      <ion-button (click)="login()" [disabled]="loginForm.invalid">Iniciar sesion</ion-button>
+      <ion-button (click)="loginWithGoogle()"><ion-icon name="logo-google"></ion-icon></ion-button>
+      <p>No esta registrado? <a routerLink='/register'>Registrese aqui</a></p>
+    </div>
+  </form>
+</ion-content>

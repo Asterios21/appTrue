@@ -1,0 +1,39 @@
+#verdadButton{
+    --background:red;
+    display: block;
+    height: 250px;
+    width: 250px;
+    margin: auto;
+    font-family: fantasy;
+    font-size: 50px;
+    border: solid 10px black;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+#retoButton{
+    --background:blue;
+    display: block;
+    height: 250px;
+    width: 250px;
+    margin: auto;
+    font-family: fantasy;
+    font-size: 50px;
+    border: solid 10px black;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+#verdadAlert{
+    --background:white;
+    --ion-text-color: black !important;
+    font-family: fantasy !important;
+    font-size: large ;
+}
+#retoAlert{
+    --background:white;
+    --ion-text-color: black !important;
+    font-family: fantasy !important;
+    font-size: large;
+}
+ion-title{
+    font-family: fantasy
+}

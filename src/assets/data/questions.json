@@ -1,0 +1,53 @@
+{
+  "Question0": {
+    "Descripcion":"Pack de preguntas n-1",
+    "Verdad": [
+      "¿Tienes algún fetiche?",
+      "¿Cuál es el secreto que nunca le has contado a nadie?",
+      "¿Cuándo fue la última vez que lloraste?",
+      "¿Cuál es tu mayor inseguridad?",
+      "¿Has seguido siendo amigo de alguien porque te beneficiaba más allá de la amistad?"
+    ],
+    "Reto": [
+      "Enseñar la foto más embarazosa de tu teléfono",
+      "Enseñar las últimas cinco personas a las que enviaste mensajes de texto y lo que decían los mensajes",
+      "Decir algo sucio a la persona de tu izquierda",
+      "Gritar la primera palabra que se te ocurra",
+      "Quitarte cuatro prendas de ropa"
+    ]
+  },
+  "Question1": {
+    "Descripcion":"Pack de preguntas n-2",
+    "Verdad": [
+      "¿Cuál es tu peor hábito?",
+      "¿Cuál es el sueño más extraño que has tenido?",
+      "¿Te han pillado alguna vez haciendo algo que no debías?",
+      "¿Has mentido alguna vez para salir de una mala cita?",
+      "¿Cuál es el mayor problema en el que te has metido?"
+    ],
+    "Reto": [
+      "Comete una fruta sin pelarla",
+      "Gemir durante un minuto",
+      "Hacer tu mejor 'gateo sexy'",
+      "Susurrar un secreto a la persona de tu izquierda",
+      "Hacer 'twerking' durante un minuto"
+    ]
+  },
+  "Question2": {
+    "Descripcion":"Pack de preguntas n-3",
+    "Verdad": [
+      "¿Te has ido de algún sitio sin pagar?",
+      "¿Guardas en la mesita de noche juguetes sexuales?",
+      "¿Debes dinero a algún amigo?",
+      "¿Has mentido sobre tu edad para sacar algo a cambio?",
+      "¿Has hecho 'ghosting'?"
+    ],
+    "Reto": [
+      "Bailar sin música durante dos minutos",
+      "Salir a la calle sin zapatos",
+      "Ponerte los calcetines en las manos toda la noche",
+      "Parar el tráfico para hacerte una foto",
+      "Ir cantando por el metro"
+    ]
+  }
+}

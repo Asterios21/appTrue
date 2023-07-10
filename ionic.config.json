@@ -1,0 +1,7 @@
+{
+  "name": "appTrue",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
