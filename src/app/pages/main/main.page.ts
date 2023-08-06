@@ -6,6 +6,7 @@ import { NavController, NavParams } from '@ionic/angular';
 import { PlayPage } from '../play/play.page';
 import { AboutPage } from '../about/about.page';
 import { AuthService } from 'src/app/services/auth.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 const getLengthOfObject = (obj: object) => {
   let lengthOfObject = Object.keys(obj).length;
   console.log(lengthOfObject);
@@ -19,11 +20,12 @@ const getLengthOfObject = (obj: object) => {
 export class MainPage implements OnInit {
   component=PlayPage;
   secondComponent=AboutPage;
+  
   question: Question[] = [];
-  constructor(public json: JsonService, private route: Router, private navCtrl: NavController,private authService:AuthService) { }
+  constructor(public json: JsonService, private route: Router, private navCtrl: NavController,private authService:AuthService,private firestoreService:FirestoreService) { }
 
   ngOnInit() {
-    console.log(this.authService.getCurrentUser());
+    this.firestoreService.insertUser()
     this.json.getJson("assets/data/questions.json").subscribe((res: any) => {
       var id: string, descripcion!: string, verdad!: string[], reto!: string[];
       for (let key in res) {
@@ -43,8 +45,6 @@ export class MainPage implements OnInit {
         this.question.push(object);
       }
     });
-
-    console.log(this.question);
   }
   createQuestion(id: string, descripcion: string, verdad: string[], reto: string[]) {
     var question: Question = {

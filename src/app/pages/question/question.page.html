@@ -1,43 +1,147 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Questions</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<div class="background"></div>
+<ion-menu side="end" contentId="main-content">
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">question</ion-title>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+
+    <ion-button (click)="logout()" id="logoutBtn">
+      <ion-icon name="log-out-outline">
+      </ion-icon>
+      Cerrar Sesion
+    </ion-button>
+
+  </ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>VERDAD O RETO</ion-title>
+      <ion-nav-link [component]="component" fill="clear">
+        <ion-button [routerLink]="['/about']" id="aboutBtn" fill="clear">
+          <ion-icon name="information-circle-outline">
+          </ion-icon>
+          About
+        </ion-button>
+      </ion-nav-link>
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
-  <div class="question-block">
-    <ion-label class="option-label">{{optionText}}</ion-label>
-    <div class="option-buttons">
-      <ion-button class="option-buttons__button" (click)="listButton()"><ion-icon name="list-outline"></ion-icon></ion-button>
-      <ion-button class="option-buttons__button" (click)="favoriteButton()"><ion-icon name="heart-outline"></ion-icon></ion-button>
-      <ion-button class="option-buttons__button" (click)="downloadButton()"><ion-icon name="download-outline"></ion-icon></ion-button>
-    </div>
-    <div class="question-list">
-      <ion-grid>
-        <ion-row>
-          <ion-col>Autor</ion-col>
-          <ion-col>Descripcion</ion-col>
-          <ion-col>Likes</ion-col>
-          <ion-col>Favoritos</ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-  </div>
-  
+  <ion-content class="ion-padding">
+    <div class="ion-page">
 
-  <div class="question-form">
-    <form action=""></form>
-    <ion-item class="question-form__input">
-      <ion-input></ion-input>
-    </ion-item>
-    <ion-item class="question-form__input">
-      <ion-input></ion-input>
-    </ion-item>
-  </div>
-</ion-content>
+      <ion-content [fullscreen]="true">
+        <ion-header collapse="condense">
+          <ion-toolbar>
+            <ion-title size="large">question</ion-title>
+          </ion-toolbar>
+
+        </ion-header>
+
+        <div class="question-block">
+
+          <ion-label class="option-label">{{optionText}}</ion-label>
+          <div class="option-buttons">
+            <ion-button class="option-buttons__button" id="listButton" (click)="listButton()"><ion-icon id="listIcon"
+                name="list-outline"></ion-icon></ion-button>
+            <ion-button class="option-buttons__button" id="favoriteButton" (click)="favoriteButton()"><ion-icon
+                id="favoriteIcon" name="heart-outline"></ion-icon></ion-button>
+            <!-- <ion-button class="option-buttons__button" (click)="downloadButton()"><ion-icon name="download-outline"></ion-icon></ion-button> -->
+            <ion-button class="option-buttons__button" id="addButton" id="open-modal" (click)="addButton()"><ion-icon
+                id="addIcon" name="add"></ion-icon></ion-button>
+          </div>
+
+          <div id="cardView">
+            <ion-card *ngFor="let item of data">
+              <ion-card-header>
+                <ion-card-title>{{item.autor}}</ion-card-title>
+                <ion-card-subtitle>{{item.likes.length}}</ion-card-subtitle>
+              </ion-card-header>
+
+              <ion-card-content>
+                {{item.descripcion}}
+              </ion-card-content>
+
+              <ion-button fill="clear" [id]="item.id+'_btnFav'" (click)="changeStateOfFavoriteIcon(item.id)"><ion-icon
+                  [id]="item.id+'_fav'"
+                  [name]="favorites.includes(item.id) ? 'heart' : 'heart-outline'"></ion-icon></ion-button>
+              <!-- <ion-button fill="clear" (click)="changeStateOfLikeIcon(item.id)"><ion-icon [id]="item.id+'_like'" [name]="likes.includes(item.id) ? 'thumbs-up' : 'thumbs-up-outline'"></ion-icon></ion-button> -->
+              <ion-button fill="clear" (click)="play(item.reto,item.verdad)"><ion-icon
+                  name="play-outline"></ion-icon></ion-button>
+            </ion-card>
+
+          </div>
+
+          <div id="listView" style="display: none;">
+            <div class="question-list">
+              <ion-grid>
+                <ion-row>
+                  <ion-col>Autor</ion-col>
+                  <ion-col>Titulo</ion-col>
+                  <ion-col>Descripcion</ion-col>
+                  <ion-col>Likes</ion-col>
+                  <ion-col>Favoritos</ion-col>
+                  <ion-col>Jugar</ion-col>
+                </ion-row>
+              </ion-grid>
+              <ion-grid>
+                <ion-row *ngFor="let item of data">
+                  <ion-col>{{item.autor}}</ion-col>
+                  <ion-col>{{item.titulo}}</ion-col>
+                  <ion-col>{{item.descripcion}}</ion-col>
+                  <ion-col>{{item.likes.length}}</ion-col>
+                  <ion-col><ion-button (click)="changeStateOfFavoriteIcon(item.id)"><ion-icon [id]="item.id+'_fav'"
+                        [name]="favorites.includes(item.id) ? 'heart' : 'heart-outline'"></ion-icon></ion-button></ion-col>
+                  <ion-col><ion-button (click)="play(item.reto,item.verdad)"><ion-icon
+                        name="play-outline"></ion-icon></ion-button></ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </div>
+
+          <ion-content class="ion-padding">
+            <ion-modal #modal trigger="open-modal" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+              <ng-template>
+                <ion-header>
+                  <ion-toolbar>
+                    <ion-title>Crear paquete de preguntas</ion-title>
+                    <ion-buttons slot="end">
+                      <ion-button (click)="modal.dismiss()">Cerrar</ion-button>
+                    </ion-buttons>
+                  </ion-toolbar>
+                </ion-header>
+                <ion-content class="ion-padding">
+                  <form [formGroup]="questionForm">
+                    <ion-item id="datosPregunta">
+                      <ion-input id="modalTitulo" label="Titulo" labelPlacement="stacked"
+                        placeholder="Ingrese un titulo" formControlName="titulo" required=""></ion-input>
+                    </ion-item>
+                    <ion-item><ion-input id="modalDescripcion" label="Descripcion" labelPlacement="stacked"
+                        placeholder="Ingrese una descripcion" formControlName="descripcion"
+                        required=""></ion-input></ion-item>
+                    <ion-item><ion-textarea id="modalVerdad" labelPlacement="stacked" label="Preguntas de verdad"
+                        aria-label="Custom textarea" placeholder="" class="custom" helperText="Maximo de letras"
+                        [counter]="true" [maxlength]="400" formControlName="verdad"
+                        required=""></ion-textarea></ion-item>
+                    <ion-item><ion-textarea id="modalReto" labelPlacement="stacked" label="Preguntas de reto"
+                        aria-label="Custom textarea" placeholder="" class="custom" helperText="Maximo de letras"
+                        [counter]="true" [maxlength]="400" formControlName="reto" required=""></ion-textarea></ion-item>
+                    <ion-item>
+                      <ion-button (click)="setQuestions()" [disabled]="questionForm.invalid">SUBIR</ion-button>
+                    </ion-item>
+                  </form>
+
+                </ion-content>
+              </ng-template>
+            </ion-modal>
+          </ion-content>
+        </div>
+      </ion-content>
+    </div>
+  </ion-content>
+</div>

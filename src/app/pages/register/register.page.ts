@@ -71,7 +71,4 @@ export class RegisterPage implements OnInit {
     });
     toast.present();
   }
-  prueba1(){
-    this.realDatabaseService.regUser();
-  }
 }

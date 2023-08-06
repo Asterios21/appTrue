@@ -35,6 +35,10 @@ const routes: Routes = [
     path: 'question',
     loadChildren: () => import('./pages/question/question.module').then( m => m.QuestionPageModule)
   },
+  {
+    path: 'prueba',
+    loadChildren: () => import('./pages/prueba/prueba.module').then( m => m.PruebaPageModule)
+  },
 ];
 
 @NgModule({

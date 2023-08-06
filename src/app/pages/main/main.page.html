@@ -3,7 +3,7 @@
     <ion-title>Verdad o Reto </ion-title>
     <ion-nav-link [component]="secondComponent">
       <a [routerLink]="['/about']"><ion-icon size="large" name="information-circle-outline"></ion-icon></a>
-      <a (click)="logout()"><ion-icon  size="large" name="log-out-outline"></ion-icon></a>
+      <a (click)="logout()"><ion-icon size="large" name="log-out-outline"></ion-icon></a>
     </ion-nav-link>
 
   </ion-toolbar>
@@ -17,13 +17,10 @@
         <ion-card-subtitle>{{value.descripcion}}</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
-
+        <ion-nav-link [component]="component">
+          <ion-button (click)="play(value.verdad,value.reto)">Jugar</ion-button>
+        </ion-nav-link>
       </ion-card-content>
-      <ion-nav-link [component]="component">
-        <ion-button (click)="play(value.verdad,value.reto)">Jugar</ion-button>
-      </ion-nav-link>
     </ion-card>
   </ion-item>
-
-
 </ion-content>
