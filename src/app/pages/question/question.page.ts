@@ -10,7 +10,9 @@ import { NavigationExtras, Router } from '@angular/router';
 import { ActionSheetController, NavController, NavParams } from '@ionic/angular';
 import { elementAt } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { set } from 'firebase/database';
+import { CameraService } from 'src/app/services/camera.service';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 @Component({
   selector: 'app-question',
   templateUrl: './question.page.html',
@@ -25,7 +27,10 @@ export class QuestionPage implements OnInit {
   favorites: Array<any> = []
   likes: Array<any> = []
   presentingElement!: Element;
-  constructor(private actionSheetCtrl: ActionSheetController, private realDatabase: RealDatabaseService, private route: Router, private authService: AuthService, private firestoreService: FirestoreService) {
+  image: string = ""
+  detalle_cuenta:string=""
+
+  constructor(private cameraService: CameraService, private actionSheetCtrl: ActionSheetController, private realDatabase: RealDatabaseService, private route: Router, private authService: AuthService, private firestoreService: FirestoreService) {
     this.questionForm = new FormGroup({
       titulo: new FormControl('', [Validators.required,]),
       descripcion: new FormControl('', [Validators.required,]),
@@ -37,10 +42,11 @@ export class QuestionPage implements OnInit {
   async ngOnInit() {
     this.firestoreService.insertUser()
     await this.getQuestions()
-    await this.getUser()
+    this.getUser()
     await this.getFavorites()
     await this.getLikes()
-  
+    this.image = await this.firestoreService.getAvatar(this.user);
+    this.detalle_cuenta = await this.firestoreService.getDetalle_cuenta(this.user);
     this.presentingElement = document.querySelector('.ion-page')!
   }
 
@@ -91,9 +97,9 @@ export class QuestionPage implements OnInit {
       icon?.setAttribute('name', 'list-outline')
       cardView!.style.display = '';
       listView!.style.display = 'none';
-      
+
     }
-    
+
   }
   favoriteButton() {
     this.optionText = 'Favoritos'
@@ -126,7 +132,6 @@ export class QuestionPage implements OnInit {
     })
   }
   changeStateOfFavoriteIcon(id: string) {
-    let button= document.getElementById(id+'_btnFav')
     let icon = document.getElementById(id + '_fav')
     if (icon?.getAttribute('name') == 'heart-outline') {
       this.firestoreService.updateFavorites(this.user, id, 'add')
@@ -154,26 +159,58 @@ export class QuestionPage implements OnInit {
     }
   }
   setQuestions() {
-    let verdad=this.questionForm.get('verdad')?.value as string;
-    let reto=this.questionForm.get('reto')?.value as string;
-    let verdadArray:Array<string>=verdad.split(/\r\n|\r|\n/,-1)
-    let retoArray:Array<string>=reto.split(/\r\n  |\r|\n/,-1)
+    let verdad = this.questionForm.get('verdad')?.value as string;
+    let reto = this.questionForm.get('reto')?.value as string;
+    let verdadArray: Array<string> = verdad.split(/\r\n|\r|\n/, -1)
+    let retoArray: Array<string> = reto.split(/\r\n  |\r|\n/, -1)
 
     console.log(verdadArray)
     console.log(retoArray)
-    let question:userQuestion={
-      id:'',
-      autor:'',
-      titulo:this.questionForm.get('titulo')?.value,
-      descripcion:this.questionForm.get('descripcion')?.value,
+    let question: userQuestion = {
+      id: '',
+      autor: '',
+      titulo: this.questionForm.get('titulo')?.value,
+      descripcion: this.questionForm.get('descripcion')?.value,
       likes: [''],
-      verdad:verdadArray,
-      reto:retoArray,
+      verdad: verdadArray,
+      reto: retoArray,
     }
-    this.firestoreService.setQuestions(this.user,question)
-    
+    this.firestoreService.setQuestions(this.user, question)
+
   }
-  logout(){
-    return this.authService.logout().then(response=>this.route.navigate(['/login'])).catch((e)=>console.log(e));
+  setDescripcion() {
+    let descripcionInput = document.getElementById('descripcionInput') as HTMLInputElement;
+    this.firestoreService.setDescripcion(this.user, descripcionInput?.value as string)
   }
+  
+
+  logout() {
+    return this.authService.logout().then(response => this.route.navigate(['/login'])).catch((e) => console.log(e));
+  }
+
+  /* ##################################### */
+
+  async editar() {
+    const image = await Camera.getPhoto({
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Camera,
+      quality: 90,
+    });
+
+    if (image) {
+      const ress = await this.updateImg(image)
+      console.log("esto es la URL :" + ress)
+      this.firestoreService.setAvatar(this.user, ress)
+    }
+  }
+
+  async updateImg(file: any) {
+    const path = "user";
+    const nombre = this.user;
+    const res = await this.cameraService.updateImg(file, path, nombre);
+    return res;
+  }
+
+
+
 }

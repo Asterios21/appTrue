@@ -6,14 +6,28 @@
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
+    <ion-item style="border-radius: 50%; position: absolute; z-index: 0;" ><img alt="Perfil Persona" [src]="image" /></ion-item>
 
+    <ion-button style="width: 90px; height:90px;" id="descripcionBtn" fill="clear" (click)="editar()"><ion-icon style="width: 70px; height: 70px;" name="create-outline"></ion-icon></ion-button>
+    <ion-button id="guardarDescripcion" (click)="setDescripcion()" fill="clear"><ion-icon name="save-outline"></ion-icon></ion-button>
+    <ion-input id="descripcionInput" fill="clear" [counter]="true" maxlength="20"
+      labelPlacement="stacked" helperText="Descripcion" [value]="detalle_cuenta"></ion-input>
     <ion-button (click)="logout()" id="logoutBtn">
       <ion-icon name="log-out-outline">
       </ion-icon>
       Cerrar Sesion
     </ion-button>
-
   </ion-content>
+  <script>
+    const btn = document.getElementById('descripcionBtn')
+    const input = document.getElementById('descripcionInput')
+    btn.addEventListener("click", function (event) {
+      input?.removeAttribute('disabled')
+      input?.focus()
+    })
+
+  </script>
+
 </ion-menu>
 <div class="ion-page" id="main-content">
   <ion-header>
@@ -36,12 +50,7 @@
     <div class="ion-page">
 
       <ion-content [fullscreen]="true">
-        <ion-header collapse="condense">
-          <ion-toolbar>
-            <ion-title size="large">question</ion-title>
-          </ion-toolbar>
 
-        </ion-header>
 
         <div class="question-block">
 
@@ -56,15 +65,16 @@
                 id="addIcon" name="add"></ion-icon></ion-button>
           </div>
 
+
           <div id="cardView">
             <ion-card *ngFor="let item of data">
               <ion-card-header>
-                <ion-card-title>{{item.autor}}</ion-card-title>
-                <ion-card-subtitle>{{item.likes.length}}</ion-card-subtitle>
+                <ion-card-title>{{item.titulo}}</ion-card-title>
+                <ion-card-subtitle>{{item.descripcion}}</ion-card-subtitle>
               </ion-card-header>
 
               <ion-card-content>
-                {{item.descripcion}}
+                {{item.autor}}
               </ion-card-content>
 
               <ion-button fill="clear" [id]="item.id+'_btnFav'" (click)="changeStateOfFavoriteIcon(item.id)"><ion-icon
@@ -132,7 +142,8 @@
                         aria-label="Custom textarea" placeholder="" class="custom" helperText="Maximo de letras"
                         [counter]="true" [maxlength]="400" formControlName="reto" required=""></ion-textarea></ion-item>
                     <ion-item>
-                      <ion-button (click)="setQuestions()" [disabled]="questionForm.invalid">SUBIR</ion-button>
+                      <ion-button (click)="setQuestions()" (click)="modal.dismiss()"
+                        [disabled]="questionForm.invalid">SUBIR</ion-button>
                     </ion-item>
                   </form>
 

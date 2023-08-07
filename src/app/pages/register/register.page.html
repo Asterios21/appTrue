@@ -12,7 +12,7 @@
       </ion-item>
       <ion-item>
         <ion-input label="Contraseña" labelPlacement="stacked" [type]="showPassword ? 'text' : 'password'" formControlName="password" [(ngModel)]="pw"></ion-input>
-      </ion-item><button ion-button clear icon-only (click)="togglePassword()"><ion-icon size="large" name="{{ showPassword ? 'eye-off' : 'eye' }}"></ion-icon></button>
+      </ion-item><!-- <button ion-button clear icon-only (click)="togglePassword()"><ion-icon size="large" name="{{ showPassword ? 'eye-off' : 'eye' }}"></ion-icon></button> -->
       <ion-item>
         <ion-input label="Confirmar contraseña" labelPlacement="stacked" [type]="showPassword ? 'text' : 'password'"
           formControlName="confirmPassword" [(ngModel)]="cpw"></ion-input>

@@ -16,7 +16,7 @@ const db = getFirestore(app);
 
 export class FirestoreService {
 
-  constructor(private authService: AuthService ) { }
+  constructor(private authService: AuthService) { }
 
   async insertUser() {
     let date = new Date();
@@ -75,10 +75,10 @@ export class FirestoreService {
       let key = Object.keys(question)
       key.forEach(element => {
         let autorC = question[element as keyof typeof question]['id'] as string
-        
+
         let userQuestionData: userQuestion = {
           id: question[element as keyof typeof question]['id'],
-          autor: autorC.split('_',1)[0],
+          autor: autorC.split('_', 1)[0],
           titulo: question[element as keyof typeof question]['titulo'],
           descripcion: question[element as keyof typeof question]['descripcion'],
           likes: question[element as keyof typeof question]['likes_usuarios'],
@@ -144,7 +144,7 @@ export class FirestoreService {
     }
   }
 
-  async setQuestions(user: string,data:userQuestion) {
+  async setQuestions(user: string, data: userQuestion) {
     const qRef = collection(db, "users")
     const q = query(qRef, where('nombre_cuenta', '==', user))
     const querySnapshot = await getDocs(q)
@@ -164,6 +164,18 @@ export class FirestoreService {
         quest: arrayUnion(object)
       })
     }
+  }
+
+  async setDescripcion(user: string, descripcion: string) {
+    const qRef = collection(db, "users")
+    const q = query(qRef, where('nombre_cuenta', '==', user))
+    const querySnapshot = await getDocs(q)
+    if (!querySnapshot.empty) {
+      await updateDoc(querySnapshot.docs[0].ref, {
+        detalle_cuenta: descripcion
+      })
+    }
+
   }
   async updateLikesUsuarios(user: string, idQuestion: string, likeOrDislike: string) {
 
@@ -187,4 +199,40 @@ export class FirestoreService {
     } */
 
   }
+
+  async setAvatar(user: string, url: string) {
+    const qRef = collection(db, "users")
+    const q = query(qRef, where('nombre_cuenta', '==', user))
+    const querySnapshot = await getDocs(q)
+    if (!querySnapshot.empty) {
+      await updateDoc(querySnapshot.docs[0].ref, {
+        avatar: url
+      })
+    }
+  }
+
+  async getAvatar(user: string) {
+    const qRef = collection(db, "users")
+    const q = query(qRef, where('nombre_cuenta', '==', user))
+    const querySnapshot = await getDocs(q)
+    let avatar:string='https://ionicframework.com/docs/img/demos/avatar.svg';
+    querySnapshot.forEach((doc) => {
+       avatar = doc.data()['avatar']
+       return avatar
+    })
+    return avatar;
+  }
+
+  async getDetalle_cuenta(user: string) {
+    const qRef = collection(db, "users")
+    const q = query(qRef, where('nombre_cuenta', '==', user))
+    const querySnapshot = await getDocs(q)
+    let detalle_cuenta:string='';
+    querySnapshot.forEach((doc) => {
+       detalle_cuenta = doc.data()['detalle_cuenta']
+       return detalle_cuenta
+    })
+    return detalle_cuenta;
+  }
+
 }

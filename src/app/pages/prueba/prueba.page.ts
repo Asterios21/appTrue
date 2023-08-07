@@ -15,6 +15,6 @@ export class PruebaPage implements OnInit {
   }
 
   prueba() {
-    this.firestoreService.getQuestions()
+    this.firestoreService.setDescripcion('nihk2001@gmail.com','qwerty')
   }
 }
